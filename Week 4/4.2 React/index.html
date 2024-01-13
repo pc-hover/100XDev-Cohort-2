@@ -1,0 +1,62 @@
+<!-- document.createElement() //document.appendChild() -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      let globalId = 0;
+
+      //Goal is to create a div which contains title+description+button
+
+      function markAsDone(id) {
+        const target = document.getElementById(id);
+        if (target) {
+          target.children[2].innerHTML = "Done!";
+        } else {
+          console.log("i m out");
+        }
+      }
+      function createChild(title, description, id) {
+        const child = document.createElement("div");
+        const firstGrandChild = document.createElement("div");
+        firstGrandChild.innerHTML = title; //how is this syntax possible
+        const secondGrandChild = document.createElement("div");
+        secondGrandChild.innerHTML = description;
+
+        const thirdGrandChild = document.createElement("button");
+        thirdGrandChild.innerHTML = "Mark as done";
+
+        child.appendChild(firstGrandChild);
+        child.appendChild(secondGrandChild);
+        child.appendChild(thirdGrandChild);
+
+        child.setAttribute("id", id); //globalId
+        //didnt understand markAsDone
+        thirdGrandChild.setAttribute("onclick", `markAsDone(${id})`);
+
+        return child; //child is a div with 3 children that we have to return
+      }
+      function addList() {
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("text").value;
+        const parent = document.getElementById("container");
+
+        //container -> appending new div with title description and global id as input
+        parent.appendChild(createChild(title, description, globalId++)); //this createChild function will return child containing title description with markdone button
+      }
+    </script>
+
+    <input type="text" placeholder="title" id="title" />
+    <input type="text" placeholder="text" id="text" />
+
+    <button onclick="addList()">Add Button</button>
+
+    <div id="container"></div>
+  </body>
+</html>

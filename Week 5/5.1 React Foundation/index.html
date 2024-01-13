@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+    <div id="buttonParent">
+
+    </div>
+
+    <script>
+//state variuable
+        let state = {
+
+            count: 0
+
+        }
+//chnages the state
+        function onButtonPress() {
+
+            state.count++;
+
+            buttonComponentReRender()
+
+        }
+//makes changes happen in html of webpage
+        function buttonComponentReRender() {
+
+            document.getElementById("buttonParent").innerHTML = "";
+
+            const component = buttonComponent(state.count);
+
+            document.getElementById("buttonParent").appendChild(component);
+        }
+//creates button and returns it 
+        function buttonComponent(count) {
+
+            const button = document.createElement("button");
+
+            button.innerHTML = `Counter ${count}`; button.setAttribute("onclick", `onButtonPress()`);
+console.log(button);
+            return button;
+
+        }
+
+buttonComponentReRender();
+
+    </script>
+
+</body>
+
+</html>
