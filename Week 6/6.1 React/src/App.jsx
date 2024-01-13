@@ -19,7 +19,7 @@ function App() {
       <Header title="React Software developer"></Header>
       <Header title="React Software developer"></Header>
       <Header title="React Software developer"></Header>
-      <Header title="React Software developer"></Header>
+      <Header title={title}></Header>
     </div>
   );
 }
