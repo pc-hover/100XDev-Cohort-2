@@ -10,22 +10,25 @@ function useTodos(n) {
   //if n chnages from 
   useEffect(() => {
 
-    setInterval(() => {
+    //after 5 seconds this will run
+    const value = setInterval(() => {
       axios.get("https://sum-server.100xdevs.com/todos")
         .then(res => {
           setTodos(res.data.todos);
           setLoading(false);
         })
     }, n * 1000)
-
     axios.get("https://sum-server.100xdevs.com/todos")
       .then(res => {
         setTodos(res.data.todos);
         setLoading(false);
       })
 
+    return (() => {
+      clearInterval(value);
+    })
 
-  }, [])
+  }, [n])
 
 
   return {
@@ -35,7 +38,9 @@ function useTodos(n) {
 }
 
 function App() {
-  const { todos, loading } = useTodos(5);
+
+  const { todos, loading } = useTodos(2);
+
 
   if (loading) {
     return <div>
