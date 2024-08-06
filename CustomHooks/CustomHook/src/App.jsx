@@ -36,7 +36,7 @@ function useTodos(n) {
     loading: loading
   };
 }
-//custom  hook for checking online status
+//Custom Hook for Online status
 function useIsOnline() {
 
   const [isOnline, setIsOnline] = useState(window.navigator.onLine);
@@ -54,26 +54,37 @@ function useIsOnline() {
 
   return isOnline;
 }
+//Custom Hook for Mouse Pointer
+function useMousePointer() {
+  const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
+
+  function handleMouseMove(e) {
+    setCoordinates({ x: e.clientX, y: e.clientY });
+  }
+  useEffect(() => {
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    }
+
+  }, [])
+
+  return coordinates;
+}
 
 function App() {
 
-  const { todos, loading } = useTodos(5);
-  const isOnline = useIsOnline();
-  if (isOnline) {
-    return "You are online"
-  }
-  else {
-    return "You are offline"
-  }
-  if (loading) {
-    return <div>
-      Loading...
-    </div>
-  }
+
+  const coordinates = useMousePointer();
 
   return (
     <>
-      {todos.map(todo => <Track todo={todo} />)}
+      <div>
+        X co-ordinate : {coordinates.x} <br />
+        Y co-ordinate : {coordinates.y}
+      </div >
 
     </>
   )
