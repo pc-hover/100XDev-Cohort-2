@@ -73,29 +73,43 @@ function useMousePointer() {
 
   return coordinates;
 }
+//Custom Hook that runs Callbackfunction after n seconds
+function useIntervals(func, { n }) {
 
+  const [response, setResponse] = useState();
+
+  useEffect(() => {
+
+    const value = setInterval(() => {
+      setResponse(func());
+    }, n * 1000)
+
+    return () => {
+      clearInterval(value);
+    }
+  }, [n, func]);
+
+
+  return response;
+}
 function App() {
 
+  const [count, setCount] = useState(1);
 
-  const coordinates = useMousePointer();
-
+  function func() {
+    setCount(count + 1);
+    return count;
+  }
+  const response = useIntervals(func, { n: 2 });
   return (
     <>
       <div>
-        X co-ordinate : {coordinates.x} <br />
-        Y co-ordinate : {coordinates.y}
+        time is {response}
       </div >
 
     </>
   )
 }
 
-function Track({ todo }) {
-  return <div>
-    {todo.title}
-    <br />
-    {todo.description}
-  </div>
-}
 
 export default App
