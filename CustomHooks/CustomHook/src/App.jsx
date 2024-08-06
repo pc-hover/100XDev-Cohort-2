@@ -92,21 +92,40 @@ function useIntervals(func, { n }) {
 
   return response;
 }
+//Custom hook for Debouncing
+function useDebounce(search, time) {
+  //after change wait for time before sending search back
+  const [debounce, setDebounce] = useState(search)
+  useEffect(() => {
+
+    const value = setTimeout(() => {
+      setDebounce(search);
+    }, time)
+
+    return () => {
+      clearTimeout(value);
+    }
+  }, [search]);
+
+  return debounce;
+}
+
 function App() {
 
-  const [count, setCount] = useState(1);
+  const [search, setSearch] = useState("");
 
-  function func() {
-    setCount(count + 1);
-    return count;
-  }
-  const response = useIntervals(func, { n: 2 });
+  const debounce = useDebounce(search, 500);
+  console.log("re-render")
+
   return (
     <>
+      {console.log(debounce)}
       <div>
-        time is {response}
+        <input type="text" onChange={(e) => {
+          setSearch(e.target.value);
+        }} />
+        Debounce Value : {debounce}
       </div >
-
     </>
   )
 }
